@@ -1,0 +1,52 @@
+{
+  "name": "js-libci",
+  "version": "1.0.0",
+  "description": "JS CI Test",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "start":"run-s build serve watch",
+    "build":"run-s clean build:js",
+    "build:js":"run-p browserify:js",
+    "clean": "run-p clean:*",
+    "clean:build": "shx rm -rf build/",
+    "browserify:js":"browserify src/index.js -dv -o build/js/index-bundle.js",
+    "watchify:js": "watchify src/index.js -dv -o build/js/index-bundle.js --dv",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "lite-server -c .config/bs-config.json",
+    "watch": "npm run watchify:js",
+    "env-install": "npx yarn@1.21.1 install",
+    "show-deps": "npm-remote-ls brower"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@work:Aventador-lab/JS-libci.git"
+  },
+  "author": "Aventador-lab",
+  "license": "MIT",
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },  
+  "browserify-shim": ".config/shim.js",
+  "dependencies": {
+    "punycode": "^2.1.1"
+  },
+  "devDependencies": {
+    "bestzip": "^2.1.5",
+    "browserify": "^16.5.0",
+    "browserify-shim": "^3.8.14",
+    "dotenv": "^8.2.0",
+    "lite-server": "^2.5.4",
+    "npm-run-all": "^4.1.5",
+    "shelljs": "^0.8.3"
+  },
+  "engines": {
+    "node": ">=v10.0.0",
+    "npm": ">=6.0.0"
+  }
+}
