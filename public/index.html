@@ -18,7 +18,48 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <div id="root"></div>
+  <h2>Test</h2>
+  <div id="root" class="container ">
+    <div class="row pb-2">
+      <div class="col-2"><label for="">Url</label></div>
+      <input type="text" name="url" class="sUrl col-8">
+      <button class="btn btn-outline-secondary col-2" id="btnA">A</button>
+      <div class="col-12 aShow"></div>
+    </div>
+    <div class="row pb-2">
+      <div class="col-2"><label for="">DecodeURI</label></div>
+      <input type="text" name="subUrl" class="subUrl col-8">
+      <button class="btn btn-outline-secondary col-2" id="btnB">B</button>
+      <div class="col-6 bShow"></div>
+    </div>
+    <div class="row pb-2">
+      <div class="col-2"><label >encodeSearchUrl</label></div>
+      <input type="text" name="searchUrl" class="searchUrl col-8">
+      <button class="btn btn-outline-secondary col-2" id="btnc">Parser</button>
+    </div>
+    <div class="row pb-2">
+      <div class="col-2 ">DecodeUrl</div>
+      <div class="col-10 originUrl"></div>
+      <div class="col-2">scheme</div>
+      <div class="col-4"><p class="small scheme"></p></div>
+      <div class="col-2">Engine</div>
+      <div class="col-4"><p class="small searchEngine"></p></div>
+      <div class="col-2">Params</div>
+      <div class="col-3"><p class="small fullParams"></p></div>
+      <div class="col-2 sKey"></div>
+      <div class="col-3"><p class="small sKeyValue"></p></div>
+    </div>
+    <h3>Httb parser</h3>
+    <div class="row pb-2">
+      <div class="col-2"><label>scheme</label></div>
+      <div class="col-3"><p class="small basAlias"></p></div>
+      <div class="col-3"><label for=""></label></div>
+      <div class="col-3"><label for=""></label></div>
+    </div>
+
+
+  </div>
+  <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
   <script src="js/index-bundle.js"></script>
   <script src="js/test.js"></script>
 </body>

@@ -8,11 +8,11 @@
     "test": "test"
   },
   "scripts": {
-    "start":"run-s build serve watch",
+    "start":"run-s build serve",
     "build":"run-s clean build:js",
     "build:js":"run-p browserify:js",
     "clean": "run-p clean:*",
-    "clean:build": "shx rm -rf build/",
+    "clean:build": "npx rm -rf build/",
     "browserify:js":"browserify src/index.js -dv -o build/js/index-bundle.js",
     "watchify:js": "watchify src/index.js -dv -o build/js/index-bundle.js --dv",
     "test": "echo \"Error: no test specified\" && exit 1",
