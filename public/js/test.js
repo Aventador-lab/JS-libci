@@ -160,6 +160,7 @@ function init(){
 	$('.searchUrl').val(u)
 } 
 
+
 !(function(document,$){
 	$('#btnA').on('click',()=>{
 		let url = $('.sUrl').val()
@@ -180,6 +181,21 @@ function init(){
 		let url = $('.searchUrl').val()
 		if(url){
 			BasParserUI(url)
+		}
+	})
+
+	$('#btnD').on('click',()=>{
+		let val = $('#aliasSearch').val()
+		if(val){
+			let inst = new Basparser();
+			inst.getDns(val,(err,address,family)=>{
+				if(!err){
+					$('.ipFamily').text(family)
+					$('.ipAddress').text(address)
+				}else{
+					$('.errDns').text(err.message)
+				}
+			})
 		}
 	})
 

@@ -11,6 +11,7 @@
  * 
  */
 'use strict'
+const dns = require('chrome-dns')
 
 class BasexerParser {
   constructor(){
@@ -48,7 +49,7 @@ class BasexerParser {
     if(!res)return json;
     json = Object.assign(json,res)
     
-    json.bas.ip = this.getDns(json.bas.alias);
+    json.bas.ip = this.getDefaultDns(json.bas.alias);
 
     if(!json.bas.ip){
        this.lastError = 'dns not fund'
@@ -61,9 +62,12 @@ class BasexerParser {
     return json;
   }
 
-  getDns(alias){
+  getDefaultDns(alias){
+    return "104.238.165.23";
+  }
 
-    return "104.238.165.23"
+  getDns(alias,callback){
+    dns.lookup(alias,callback);
   }
 
   _handleParser(url){

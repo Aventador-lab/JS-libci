@@ -11,7 +11,7 @@
  * 
  */
 'use strict'
-const Verion = require('../package.json').version 
+const Verion = "1.0.0"; 
 
 const Basparser = require('./lib/utils/basparser.js')
 const punycode = require('punycode')
