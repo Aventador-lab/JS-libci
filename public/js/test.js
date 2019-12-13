@@ -8,31 +8,31 @@ const sEngines = [
 	{
 		"name":"google",
 		"domain":/^www.google.com$/,
-		"sKey":/^q=httb:\/\/.+$/,
+		"sKey":/^q=httb:\/\/.+$/g,
 		"keyLen":2
 	},
 	{
 		"name":"baidu",
 		"domain":/^www.baidu.com$/,
-		"sKey":/^wd=httb:\/\/.+$/,
+		"sKey":/^wd=httb:\/\/.+$/g,
 		"keyLen":3
 	},
 	{
 		"name":"bing",
 		"domain":/^[a-z]+.bing.com$/,
-		"sKey":/^q=httb:\/\/.+$/,
+		"sKey":/^q=httb:\/\/.+$/g,
 		"keyLen":2
 	},
 	{
 		"name":"sogou",
 		"domain":/^www.sogou.com$/,
-		"sKey":/^query=httb:\/\/.+$/,
+		"sKey":/^query=httb:\/\/.+$/g,
 		"keyLen":6
 	},
 	{
 		"name":"360",
 		"domain":/^www.so.com$/,
-		"sKey":/^q=httb:\/\/.+$/,
+		"sKey":/^q=httb:\/\/.+$/g,
 		"keyLen":2
 	}
 ]
@@ -40,7 +40,7 @@ const bregex = /^http[s]?[a-z]{2,4}.(google.com|bing.com|baidu.com|sogou.com|so.
 //https://cn.bing.com/search?q=httb%3A%2F%2F%E2%9D%A4&PC=U316&FORM=BESBTB&rdr=1&rdrig=734D014135B54A31B5FE58331CBC148F&ensearch=1
 
 var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
-var parse_bas = /^(?:([A-Za-z]+):)?(\/{0,3})([^?#:]*)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+var parse_bas = /^(?:([A-Za-z]+):)?(\/{0,3})([^?#:/]*)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
 let fields = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
 function tt(url){
   console.log(url)
@@ -54,7 +54,7 @@ function basParse(url){
 		"originUrl":url,
 		"isHttb":false,
 		"engine":"",
-		"fullHttb":"",
+		"encodeFullHttb":"",
 		"redirectUrl":""
 	}
 
@@ -64,11 +64,11 @@ function basParse(url){
 	let ip = getDNS(res.bas.alias)
 	res.bas.ip = ip;
 	json.redirectUrl = handleRedirectUrl(res.bas)
-
+	json.isHttb= true
 	return Object.assign(json,res);
 }
 
-async function getDNS(alias){
+function getDNS(alias){
 	return "1.1.1.1";
 }
 
@@ -94,7 +94,7 @@ function handleRedirectUrl(bas){
 function praserSearch(url){
 	let data = parse_url.exec(url)
 
-	if(!data||!data.length!=8)return null;
+	if(!data||data.length!=8)return null;
 	if(!data[6] ||!data[3])return null;
 	let sDomain = data[3]
 	let paramsStr = data[6]
@@ -105,16 +105,20 @@ function praserSearch(url){
 
 	let res = {
 		"engine":engineType[0].name
+		
 	}
 
 	let r = {}
 
 	let params = paramsStr.split(/\&/)
-	params.filter(s => engineType.sKey.test(s))
-	if(params.length!=1)return null;
-	res.encodeFullHttb = params[0].substring(engineType.keyLen)
-	r.fullHttb = decodeURIComponent(res.encodeFullHttb)
+		.filter(s => decodeURIComponent(s)
+		.match(engineType[0].sKey))
 
+	console.log(JSON.stringify(params,null,2))
+	if(params.length!=1)return null;
+	res.encodeFullHttb = params[0].substring(engineType[0].keyLen)
+	r.fullHttb = decodeURIComponent(res.encodeFullHttb)
+	console.log(r.fullHttb)
 	let basArr = parse_bas.exec(r.fullHttb);
 	if(!basArr||basArr.length!=8)return null;
 	r.alias=basArr[3];
@@ -129,6 +133,32 @@ function praserSearch(url){
 	return res;
 }
 
+function BasParserUI(url){
+	let bInstance = new Basparser();
+	let dets =  bInstance.parseSearchUrl(url)
+	//basParse(url)
+	setUI(dets)
+}
+
+function setUI(dets){
+	$('.inUrl').text(dets.searchUrl)
+	$('.encodeHttbUrl').text(dets.encodeHttbUrl)
+	$('.isHttb').text(dets.isHttb?'true' : 'false')
+	if(dets.isHttb){
+		$('.searchEngine').text(dets.engine)
+		$('.fullParams').text(dets.bas.params)
+		$('.redirectUrl').text(dets.redirectUrl)
+		$('.basAlias').text(dets.bas.alias)
+
+		$('.basIP').text(dets.bas.ip)
+		$('.fullHttb').text(dets.bas.decodeHttbUrl)
+	}
+}
+
+function init(){
+	let u = "https://www.baidu.com/s?ie=UTF-8&wd=httb%3A//%E2%9D%A4.com/ok%3Faa=bb";
+	$('.searchUrl').val(u)
+} 
 
 !(function(document,$){
 	$('#btnA').on('click',()=>{
@@ -149,8 +179,10 @@ function praserSearch(url){
 	$('#btnC').on('click',()=>{
 		let url = $('.searchUrl').val()
 		if(url){
-
+			BasParserUI(url)
 		}
 	})
+
+	init();
 
 })(window.document,jQuery)
