@@ -34,8 +34,11 @@
   },
   "browserify-shim": ".config/shim.js",
   "dependencies": {
+    "base64url": "^3.0.1",
     "chrome-dns": "^1.0.1",
+    "dns-over-http": "^0.2.0",
     "dns-packet": "^5.2.1",
+    "http-dns": "^3.0.1",
     "punycode": "^2.1.1"
   },
   "devDependencies": {

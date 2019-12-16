@@ -199,6 +199,38 @@ function init(){
 		}
 	})
 
+	$('#btnE').on('click',(event)=>{
+		let vd = $('#domain').vol()
+		if(vd){
+			let s = CommonUtils.base64.toBase64(vd);
+			$('.encodeBase64Url').text(s)
+
+		}
+		test()
+		return false;
+	})
+
 	init();
 
 })(window.document,jQuery)
+
+function test(){
+	const url = 'https://dns.google.com:443/experimental'
+	 
+	const results = []
+	const lookups = [
+	  {type: 'A', name: 'google.com'},
+	  {type: 'A', name: 'littlstar.com'},
+	  {type: 'A', name: 'twitter.com'},
+	]
+	 
+	for (const lookup of lookups) {
+	  CommonUtils.Doh.query({url}, [lookup], (err, res) => {
+	    if (err) { throw err }
+	    results.push(res.answers)
+	    if (results.length == lookups.length) {
+	      console.log(results)
+	    }
+	  })
+	}	
+}
