@@ -204,9 +204,14 @@ function init(){
 		if(vd){
 			let s = CommonUtils.base64.toBase64(vd);
 			$('.encodeBase64Url').text(s)
-
 		}
+<<<<<<< HEAD
 		//await test()
+=======
+		//test()
+		//
+		getBalance();
+>>>>>>> a5347ee894920464ff810cf208446f68e5f557fb
 		return false;
 	})
 
@@ -214,3 +219,43 @@ function init(){
 
 })(window.document,jQuery)
 
+<<<<<<< HEAD
+=======
+
+
+function test(){
+	const url = 'https://dns.google.com:443/experimental'
+	 
+	const results = []
+	const lookups = [
+	  {type: 'A', name: 'google.com'},
+	  {type: 'A', name: 'littlstar.com'},
+	  {type: 'A', name: 'twitter.com'},
+	]
+	 
+	for (const lookup of lookups) {
+	  CommonUtils.Doh.query({url}, [lookup], (err, res) => {
+	    if (err) { throw err }
+	    results.push(res.answers)
+	    if (results.length == lookups.length) {
+	      console.log(results)
+	    }
+	  })
+	}	
+}
+
+var web3 = new Web3(Web3.providers.HttpProvider(Web3.ropstenRPCUrl))
+const basContract = new web3.eth.Contract(CommonUtils.Contracts.ABI,CommonUtils.Contracts.address);
+function getBalance(){
+	console.log('getBlance')
+	
+	basContract.methods.queryByString.call('nbs',(err,data) =>{
+		if(!err){
+			console.log(data)
+		}else{
+			console.log(err)
+		}
+	})
+
+}
+>>>>>>> a5347ee894920464ff810cf208446f68e5f557fb
