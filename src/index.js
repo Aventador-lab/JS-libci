@@ -16,9 +16,10 @@ const Verion = "1.0.0";
 const Basparser = require('./lib/utils/basparser.js')
 const punycode = require('punycode')
 const base64Url = require('base64url')
-const dns = require('dns')
 const httpDns = require('http-dns')
 const Doh = require('dns-over-http')
+const chromeDns = require('chrome-dns')
+//const Dohs = require('dns-over-https')
 
 
 global.CommonUtils = {

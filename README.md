@@ -30,3 +30,11 @@ https://www.npmjs.com/package/dns-over-http
 ## Examples gitRespo
 
 https://github.com/mozilla/doh-rollout
+
+https://github.com/buschtoens/dns-over-https#readme
+
+https://github.com/buschtoens/dns-over-https
+
+https://github.com/feross/chrome-dns
+
+https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/
