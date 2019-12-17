@@ -200,19 +200,22 @@ function init(){
 	})
 
 	$('#btnE').on('click',(event)=>{
-		let vd = $('#domain').vol()
+		let vd = $('#domain').val()
 		if(vd){
 			let s = CommonUtils.base64.toBase64(vd);
 			$('.encodeBase64Url').text(s)
-
 		}
-		test()
+		//test()
+		//
+		getBalance();
 		return false;
 	})
 
 	init();
 
 })(window.document,jQuery)
+
+
 
 function test(){
 	const url = 'https://dns.google.com:443/experimental'
@@ -233,4 +236,19 @@ function test(){
 	    }
 	  })
 	}	
+}
+
+var web3 = new Web3(Web3.providers.HttpProvider(Web3.ropstenRPCUrl))
+const basContract = new web3.eth.Contract(CommonUtils.Contracts.ABI,CommonUtils.Contracts.address);
+function getBalance(){
+	console.log('getBlance')
+	
+	basContract.methods.queryByString.call('nbs',(err,data) =>{
+		if(!err){
+			console.log(data)
+		}else{
+			console.log(err)
+		}
+	})
+
 }

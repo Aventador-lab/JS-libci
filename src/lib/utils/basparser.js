@@ -139,31 +139,31 @@ BasexerParser.supportEngines = [
   {
     "name":"google",
     "domain":/^www.google.com$/,
-    "sKey":/^q=httb:\/\/.+$/g,
+    "sKey":/^q=httpb:\/\/.+$/g,
     "keyLen":2
   },
   {
     "name":"baidu",
     "domain":/^www.baidu.com$/,
-    "sKey":/^wd=httb:\/\/.+$/g,
+    "sKey":/^wd=httpb:\/\/.+$/g,
     "keyLen":3
   },
   {
     "name":"bing",
     "domain":/^[a-z]+.bing.com$/,
-    "sKey":/^q=httb:\/\/.+$/g,
+    "sKey":/^q=httpb:\/\/.+$/g,
     "keyLen":2
   },
   {
     "name":"sogou",
     "domain":/^www.sogou.com$/,
-    "sKey":/^query=httb:\/\/.+$/g,
+    "sKey":/^query=httpb:\/\/.+$/g,
     "keyLen":6
   },
   {
     "name":"360",
     "domain":/^www.so.com$/,
-    "sKey":/^q=httb:\/\/.+$/g,
+    "sKey":/^q=httpb:\/\/.+$/g,
     "keyLen":2
   }
 ]
