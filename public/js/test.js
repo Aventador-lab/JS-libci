@@ -205,13 +205,8 @@ function init(){
 			let s = CommonUtils.base64.toBase64(vd);
 			$('.encodeBase64Url').text(s)
 		}
-<<<<<<< HEAD
-		//await test()
-=======
-		//test()
-		//
-		getBalance();
->>>>>>> a5347ee894920464ff810cf208446f68e5f557fb
+
+
 		return false;
 	})
 
@@ -219,8 +214,7 @@ function init(){
 
 })(window.document,jQuery)
 
-<<<<<<< HEAD
-=======
+
 
 
 function test(){
@@ -244,18 +238,5 @@ function test(){
 	}	
 }
 
-var web3 = new Web3(Web3.providers.HttpProvider(Web3.ropstenRPCUrl))
-const basContract = new web3.eth.Contract(CommonUtils.Contracts.ABI,CommonUtils.Contracts.address);
-function getBalance(){
-	console.log('getBlance')
-	
-	basContract.methods.queryByString.call('nbs',(err,data) =>{
-		if(!err){
-			console.log(data)
-		}else{
-			console.log(err)
-		}
-	})
 
-}
->>>>>>> a5347ee894920464ff810cf208446f68e5f557fb
+
