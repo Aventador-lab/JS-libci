@@ -156,10 +156,31 @@ function setUI(dets){
 }
 
 function init(){
-	let u = "https://www.baidu.com/s?ie=UTF-8&wd=httb%3A//%E2%9D%A4.com/ok%3Faa=bb";
+	let u = "https://www.baidu.com/s?ie=UTF-8&wd=httpb%3A//%E2%9D%A4.com/ok%3Faa=bb";
 	$('.searchUrl').val(u)
 } 
 
+
+function test(){
+	const url = 'https://dns.google.com:443/experimental'
+	 
+	const results = []
+	const lookups = [
+	  {type: 'A', name: 'google.com'},
+	  {type: 'A', name: 'littlstar.com'},
+	  {type: 'A', name: 'twitter.com'},
+	]
+	 
+	for (const lookup of lookups) {
+	  CommonUtils.Doh.query({url}, [lookup], (err, res) => {
+	    if (err) { throw err }
+	    results.push(res.answers)
+	    if (results.length == lookups.length) {
+	      console.log(results)
+	    }
+	  })
+	}	
+}
 
 !(function(document,$){
 	$('#btnA').on('click',()=>{
@@ -201,11 +222,19 @@ function init(){
 
 	$('#btnE').on('click',(event)=>{
 		let vd = $('#domain').val()
+		
 		if(vd){
+			console.log(vd)
 			let s = CommonUtils.base64.toBase64(vd);
 			$('.encodeBase64Url').text(s)
-		}
+			queryDns(vd).then(d =>{
+				console.log("reback",d)
+				$('.domainIP').text(d[0])
+			}).catch(e =>{
+				console.log(e)
+			})
 
+		}
 
 		return false;
 	})
@@ -214,29 +243,26 @@ function init(){
 
 })(window.document,jQuery)
 
-
-
-
-function test(){
-	const url = 'https://dns.google.com:443/experimental'
-	 
-	const results = []
-	const lookups = [
-	  {type: 'A', name: 'google.com'},
-	  {type: 'A', name: 'littlstar.com'},
-	  {type: 'A', name: 'twitter.com'},
-	]
-	 
-	for (const lookup of lookups) {
-	  CommonUtils.Doh.query({url}, [lookup], (err, res) => {
-	    if (err) { throw err }
-	    results.push(res.answers)
-	    if (results.length == lookups.length) {
-	      console.log(results)
-	    }
-	  })
-	}	
+async function queryDns(alias){
+	console.log('begin>>',alias)
+	return await BasManager.methods.queryByString(alias).call()
 }
 
+async function tokenMethod(){
+	console.log('token name begin')
+	let c = await BasToken.methods.name().call()
+	console.log('token name')
+}
+
+function getEthBalance() {
+	nweb3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/1362a998079949baaea80eb017fe1f0f'))
+	nweb3.eth.getBalance(CommonUtils.basum.defacc,function(e,r){
+    if(!e){
+	    console.log(nweb3.utils.fromWei(r,"ether"),' ETH')
+	  }else{
+	    console.log(e)
+	  }
+	})
 
 
+}

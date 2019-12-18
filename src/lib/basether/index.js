@@ -1,6 +1,5 @@
 const abis = require("./contracts.js")
 const Web3 = require("web3")
-const { WebsocketProvider } = require("web3-providers")
 const { web3Utils } = require("web3-utils")
 
 
@@ -16,21 +15,39 @@ const Addresses = {
 function Basum (){
 }
 
+const network = "ropsten"
+
 var Basum = {
-	network:"ropsten",
+	network:network,
 	Token : {
 		"abi":abis["BAS_Token"] || [],
-		"address":Addresses.BAS_Token[Basum.network] ||""		
+		"address":Addresses.BAS_Token[network] ||""		
 	},
 	Manager:{
 		"abi":abis["BAS_Manager_Simple"] ||[],
-		"address" : Addresses.BAS_Manager_Simple[Basum.network] ||""			
+		"address":Addresses.BAS_Manager_Simple[network] || ""			
 	},
 	getWSSURI:(projectId) => {
 		return `wss://${Basum.network}.infura.io/ws/v3/${projectId}`
+	},
+	getHttpsURI:(projectId) => {
+		return `https://${Basum.network}.infura.io/v3/${projectId}`
+	},
+	getHttpSecURI:(projectId) => {
+		return `https://:${Basum.insec}@${Basum.network}.infura.io/v3/${projectId}`
+	},
+	getBasInfaURI:() =>{
+		return "https://ropsten.infura.io/v3/8b8db3cca50a4fcf97173b7619b1c4c3"
+	},
+	getContractOps:() =>{
+		let addr = `${Basum.defacc}`
+		return {
+			from:addr,
+			gasPrice:"20000000000"
+		}
 	}
 }
-
+Basum.defacc = "0xFd30d2c32E6A22c2f026225f1cEeA72bFD9De865"
 Basum.insec = "4fed2035cab14c39ae7602bc54e7f297"
 Basum.projectId = "1362a998079949baaea80eb017fe1f0f"
 Basum.deps = "web3:v1.2.4"
@@ -38,6 +55,5 @@ Basum.deps = "web3:v1.2.4"
 module.exports = {
 	"Basum": Basum,
 	"Web3":Web3,
-	"WebsocketProvider":WebsocketProvider,
 	"web3Utils":web3Utils
 }

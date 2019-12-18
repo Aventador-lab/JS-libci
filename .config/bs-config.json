@@ -1,6 +1,7 @@
 {
   "port": 8140,
   "bind": "localhost",
+  "browser":["firefox"],
   "files": [
     "./public/**/*.{html,htm,css,js}",
     "./src/**/*.{js,html,css}",
