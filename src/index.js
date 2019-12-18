@@ -64,7 +64,8 @@ global.CommonUtils = {
   "punycode":punycode,
   "base64":base64Url,
   "Basum":Basum,
-  "web3Utils":web3Utils
+  "web3Utils":web3Utils,
+  "UriParser":BasuriParser
 }
 
 

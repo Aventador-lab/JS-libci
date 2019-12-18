@@ -155,15 +155,18 @@ function setUI(dets){
 		$('.fullHttb').text(dets.bas.decodeHttbUrl)
 	}
 }
-
+let bu = "https://www.google.com/search?q=httpb%3A%2F%2F%E2%9D%A4&oq=httpb%3A%2F%2F%E2%9D%A4&aqs=chrome..69i57j69i58.5372j0j7&sourceid=chrome&ie=UTF-8";
 async function init(){
 	let u = "https://www.baidu.com/s?ie=UTF-8&wd=httpb%3A//%E2%9D%A4.com/ok%3Faa=bb";
+	
 	$('.searchUrl').val(u)
+	$('#basDomain').val(bu)
 	let url = CommonUtils.Basum.getBasInfaURI();
 	window.web3 = await new Web3(new Web3.providers.HttpProvider(url))
 	let opts = CommonUtils.Basum.getContractOps()
 	window.BasManager = await new window.web3.eth.Contract(CommonUtils.Basum.Manager.abi,CommonUtils.Basum.Manager.address,opts)
-	
+	window.inst = new CommonUtils.UriParser(BasManager)
+	console.log('load completed.');
 	bindBtnF();
 } 
 
@@ -178,10 +181,28 @@ function bindBtnF(){
 }
 
 async function QueryBASDNS (uri){
+	let resData = inst.handleURL2Details(uri);
+	
+	try{
+		console.log('>>>resData',resData);
+		let alias = CommonUtils.punycode.toASCII(resData.bas.alias)
+		console.log('alias=>',alias);
+		const queryDnsData = await promisity(cb => BasManager.methods.queryByString(alias).call(cb));	
+		if(queryDnsData){
+			console.log(typeof queryDnsData);
+			let json = CommonUtils.Basum.parseBas(queryDnsData)
+			console.log(json);
+			if(json.bastype == 'IP'){
+				let ip = json.ipv4 || json.ipv6
+				resData = CommonUtils.UriParser.handleRedirectUrl(resData,ip)
+			}
+		}
+		console.log("last>>>");
+		console.log(JSON.stringify(resData,null,2));
+	}catch(e){
+		console.log(e)
+	}
 
-
-
-	const queryDnsData = await promisity(cb => BasManager.methods.queryByString(uri).call(cb));
 }
 
 function test(){
