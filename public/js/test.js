@@ -42,6 +42,7 @@ const bregex = /^http[s]?[a-z]{2,4}.(google.com|bing.com|baidu.com|sogou.com|so.
 var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
 var parse_bas = /^(?:([A-Za-z]+):)?(\/{0,3})([^?#:/]*)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
 let fields = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
+
 function tt(url){
   console.log(url)
   let data = parse_url.exec(url)
@@ -155,11 +156,33 @@ function setUI(dets){
 	}
 }
 
-function init(){
+async function init(){
 	let u = "https://www.baidu.com/s?ie=UTF-8&wd=httpb%3A//%E2%9D%A4.com/ok%3Faa=bb";
 	$('.searchUrl').val(u)
+	let url = CommonUtils.Basum.getBasInfaURI();
+	window.web3 = await new Web3(new Web3.providers.HttpProvider(url))
+	let opts = CommonUtils.Basum.getContractOps()
+	window.BasManager = await new window.web3.eth.Contract(CommonUtils.Basum.Manager.abi,CommonUtils.Basum.Manager.address,opts)
+	
+	bindBtnF();
 } 
 
+function bindBtnF(){
+	$('#btnF').on('click',events =>{
+		let uri = $('#basDomain').val()
+		if(uri){
+			 QueryBASDNS(uri);
+		}
+		return false;
+	})
+}
+
+async function QueryBASDNS (uri){
+
+
+
+	const queryDnsData = await promisity(cb => BasManager.methods.queryByString(uri).call(cb));
+}
 
 function test(){
 	const url = 'https://dns.google.com:443/experimental'
@@ -181,6 +204,18 @@ function test(){
 	  })
 	}	
 }
+
+const promisity = (inner) =>
+  new Promise((resolve,reject) => {
+    inner((err,data) => {
+      if(!err){
+        resolve(data)
+      }else{
+        reject(err)
+      }
+    })
+  });
+
 
 !(function(document,$){
 	$('#btnA').on('click',()=>{
@@ -208,15 +243,16 @@ function test(){
 	$('#btnD').on('click',()=>{
 		let val = $('#aliasSearch').val()
 		if(val){
-			let inst = new Basparser();
-			inst.getDns(val,(err,address,family)=>{
+
+			let inst = new Basparser(BasManager);
+/*			inst.getDns(val,(err,address,family)=>{
 				if(!err){
 					$('.ipFamily').text(family)
 					$('.ipAddress').text(address)
 				}else{
 					$('.errDns').text(err.message)
 				}
-			})
+			})*/
 		}
 	})
 
@@ -241,7 +277,12 @@ function test(){
 
 	init();
 
+
+
 })(window.document,jQuery)
+
+
+
 
 async function queryDns(alias){
 	console.log('begin>>',alias)
