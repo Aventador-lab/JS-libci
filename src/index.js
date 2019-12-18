@@ -37,9 +37,12 @@ var _web3 = new Web3(new Web3.providers.HttpProvider(basUrl));
 //   window.web3 = _web3;
 // }
 let opts = Basum.getContractOps()
+if(window && window.web3) {
+  window.web3 = _web3
+}
 global.web3 = window._web3
-global.BasManager = new _web3.eth.Contract(Basum.Manager.abi,Basum.Manager.address,opts)
-global.BasToken = new _web3.eth.Contract(Basum.Token.abi,Basum.Token.address,opts)
+/*global.BasManager = new _web3.eth.Contract(Basum.Manager.abi,Basum.Manager.address,opts)
+global.BasToken = new _web3.eth.Contract(Basum.Token.abi,Basum.Token.address,opts)*/
 
 console.log(">>> initial complete");
 global.CommonUtils = {

@@ -1,4 +1,5 @@
 const abis = require("./contracts.js")
+const parseBAS = require("./aliasparser.js")
 const Web3 = require("web3")
 const { web3Utils } = require("web3-utils")
 
@@ -51,6 +52,7 @@ Basum.defacc = "0xFd30d2c32E6A22c2f026225f1cEeA72bFD9De865"
 Basum.insec = "4fed2035cab14c39ae7602bc54e7f297"
 Basum.projectId = "1362a998079949baaea80eb017fe1f0f"
 Basum.deps = "web3:v1.2.4"
+Basum.parseBas = parseBAS
 
 module.exports = {
 	"Basum": Basum,
