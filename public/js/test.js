@@ -190,6 +190,7 @@ async function QueryBASDNS (uri){
 		const queryDnsData = await promisity(cb => BasManager.methods.queryByString(alias).call(cb));	
 		if(queryDnsData){
 			console.log(typeof queryDnsData);
+			console.log('keys',Object.keys(queryDnsData))
 			let json = CommonUtils.Basum.parseBas(queryDnsData)
 			console.log(json);
 			if(json.bastype == 'IP'){

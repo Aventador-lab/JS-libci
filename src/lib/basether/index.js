@@ -2,7 +2,6 @@ const abis = require("./contracts.js")
 const parseBAS = require("./aliasparser.js")
 const BasuriParser = require('./basuriparser.js')
 const Web3 = require("web3")
-const { web3Utils } = require("web3-utils")
 
 
 const Addresses = {
@@ -58,6 +57,5 @@ Basum.parseBas = parseBAS
 module.exports = {
 	"BasuriParser":BasuriParser,
 	"Basum": Basum,
-	"Web3":Web3,
-	"web3Utils":web3Utils
+	"Web3":Web3
 }

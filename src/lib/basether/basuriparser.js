@@ -43,7 +43,7 @@ class BasuriParser{
       return json;
     }
 
-    let res = _handleParser(json.searchUrl)
+    let res = _handleParser.call(this,json.searchUrl)
     if(!res)return json;
     json = Object.assign(json,res)
     
