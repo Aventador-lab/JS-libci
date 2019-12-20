@@ -47,7 +47,7 @@ class BasuriParser{
     if(!res)return json;
     json = Object.assign(json,res)
     
-    console.log(JSON.stringify(json,null,2))
+    //console.log(JSON.stringify(json,null,2))
     return json;     
   }
 
