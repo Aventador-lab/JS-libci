@@ -9,6 +9,7 @@ concat = require('gulp-concat'),
 uglify = require('gulp-uglify'),
 source = require('vinyl-source-stream'),
 buffer = require('vinyl-buffer'),
+terser = require('gulp-terser-js'),
 sourcemaps = require('gulp-sourcemaps'),
 gutil = require('gulp-util'),
 log = require('gulplog'),
@@ -31,9 +32,15 @@ gulp.task('js:bundle',function(){
   })
 
   return b.bundle()
-    .pipe(source("index-bundle.min.js"))
+    .pipe(source("index"))
     .pipe(buffer())
-    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init({loadMaps:true}))
+    .pipe(terser({
+      mangle:{
+        reserved:['BAS']
+      }
+    }))
+    .pipe(rename({extname:'.bundle.min.js'}))
     //.pipe(uglify())
     //.on('error',log.error)
     .pipe(sourcemaps.write(''))

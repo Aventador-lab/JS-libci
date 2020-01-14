@@ -61,6 +61,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser-js": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
     "gulplog": "^1.0.0",
